@@ -1,0 +1,356 @@
+﻿<!doctype html>
+<html>
+
+<!-- Mirrored from www.meteorshowers.org/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Jun 2021 13:11:55 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+
+<head>
+  <title>太空实验室 Meteor showers as seen from space</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <link rel="canonical" href="index.html">
+  <meta name="description"
+    content="3D visualization of NASA meteor shower data. Scientifically accurate and fully interactive." />
+  <meta name="twitter:title" content="Meteor showers as seen from space">
+  <meta name="twitter:description" content="Watch as Earth flies through clouds of meteors.">
+  <meta property="og:title" content="Meteor showers as seen from space" />
+  <meta property="og:description" content="Watch as Earth flies through clouds of meteors." />
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@iwebst">
+  <meta name="twitter:creator" content="@iwebst">
+  <meta name="twitter:image" content="../i.imgur.com/n5U34ah.png">
+  <meta property="og:image" content="../i.imgur.com/n5U34ah.png" />
+  <meta property="og:type" content="article" />
+
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link type="text/css" href="css/main.css" rel="stylesheet" />
+  <link type="text/css" href="css/jquery.modal.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="summary" class="maximized">
+    <span id="normal-summary">
+      <h2><span id="meteor-shower-name">Perseid</span> meteor shower</h2>
+      <span class="description">
+        这场流星雨在 <span id="meteor-shower-peak">7月下旬</span>, 当时地球与169P/NEAT彗星留下的尘埃云相交 <span
+          id="meteor-shower-source-type"></span> <a target="_blank" href="" id="meteor-shower-object-name"></a>
+        <span class="iframe-show-container" style="display:none">
+          <a target="_blank" href="">View more showers.</a>
+        </span>
+      </span>
+    </span>
+    <span id="view-all-summary" style="display:none">
+      <h2>All major meteor showers</h2>
+      These showers occur at various points of the year and originate from multiple comets and asteroids.
+    </span>
+    <span id="iau-summary" style="display:none">
+      <h2>IAU Shower #<span id="iau-shower-number"></span><span id="iau-shower-suffix"></span></h2>
+
+      <a target="_blank" href="">View more showers.</a>
+    </span>
+    <span class="share-buttons">
+      <span><a href="https://www.facebook.com/sharer/sharer.php?u=https://www.meteorshowers.org"
+          title="Share on Facebook" target="_blank"
+          oncspanck="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img
+            src="img/flat_web_icon_set/black/Facebook.png"></a></span>
+      <span><a
+          href="https://twitter.com/intent/tweet?source=https://www.meteorshowers.org&amp;text=https://www.meteorshowers.org&amp;via=iwebst"
+          target="_blank" title="Tweet"
+          onclick="window.open('https://twitter.com/intent/tweet?via=iwebst&text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img
+            src="img/flat_web_icon_set/black/Twitter.png"></a></span>
+      <span><a href="https://plus.google.com/share?url=https://www.meteorshowers.org" title="Share on Google+"
+          target="_blank"><img src="img/flat_web_icon_set/black/Google%2b.png"></a></span>
+      <span><a
+          href="cdn-cgi/l/email-protection.html#93ace0e6f1f9f6f0e7aeb5f1fcf7eaaefbe7e7e3e0a9bcbce4e4e4bdfef6e7f6fce1e0fbfce4f6e1e0bdfce1f4"
+          target="_blank" title="Email"
+          onclick="window.open('mailto:?subject=' + encodeURIComponent(document.title) + '&body=' +  encodeURIComponent(document.URL)); return false;"><img
+            src="img/flat_web_icon_set/black/Email.png"></a></span>
+    </span>
+    <div class="shower-details-container iframe-hide-container">
+      <p>
+        View <select id="shower-select"></select> <span class="mobile-hide-container">on <span id="current-date"
+            title="Adjust this date at the top right"></span></span>
+      </p>
+      <p>
+        <span id="restore-view" class="button">太阳系</span>
+        <span id="lock-earth" class="button">跟随地球</span>
+        <span id="lock-earth-view" class="button">从地球观察</span>
+        <span id="btn-iau-input" class="button mobile-hide-container">输入IAU编号</span>
+      </p>
+    </div>
+    <div class="iframe-hide-container">
+      <span class="hide-summary toggle-summary">-</span>
+      <span class="show-summary toggle-summary">+</span>
+    </div>
+  </div>
+
+  <div id="container"></div>
+  <div id="sky-map" class="mobile-hide-container iframe-hide-container" style="display: none">
+    <img src="img/skymaps/perseids_north.jpg">
+    <span>Source: meteorshowersonline.com</span>
+  </div>
+  <div id="global-tooltip"></div>
+  <div id="skymap-modal" class="modal">
+  </div>
+  <div id="faq-modal" class="modal faq-modal">
+    <div class="faq-modal-body">
+      <h2>What am I looking at?</h2>
+      <p>
+        Meteor showers on Earth are caused by streams of meteoroids hitting our atmosphere. These meteoroids are sand-
+        and pebble-sized bits of rock that were once released from their parent comet. Some comets are no longer active
+        and are now called asteroids.
+      </p>
+      <p>
+        This visualization shows these meteoroid streams orbiting the Sun, some stretching to the outer regions of the
+        solar system. Select the meteor shower in the menu to see the corresponding meteoroid stream in space. Their
+        meteoroid orbits are based on those measured by NASA's <a href="http://cams.seti.org/">CAMS video camera
+          surveillance network</a>, and were calculated by meteor astronomer <a
+          href="https://en.wikipedia.org/wiki/Peter_Jenniskens">Peter Jenniskens</a> of the SETI Institute and NASA Ames
+        Research Center.
+      </p>
+      <p>
+        This visualization is developed and hosted by <a href="http://www.ianww.com/">Ian Webster</a>.
+      </p>
+      <h2>How can I see a meteor shower?</h2>
+      <p>
+        Meteor showers are best seen on certain dark and clear nights. To see how many meteors per hour are visible from
+        your location, go to <a href="http://leonid.arc.nasa.gov/estimator.html">this website</a> and select the date,
+        the shower, and your location.
+      </p>
+      <h2>Where should I go next?</h2>
+      <p>
+        If you like these sorts of interactive visualizations, take a look at <a href="http://www.ianww.com/">Ian
+          Webster</a>'s other tools, including <a href="http://www.ianww.com/pluto">Pluto</a>, <a
+          href="http://dinosaurpictures.org/ancient-earth/#600">ancient Earth</a>, or <a
+          href="http://www.asterank.com/">asteroids</a>!
+      </p>
+      <h2>Can I use this on my site?</h2>
+      <p>
+        Sure! Use the following code to load the interactive visualization in an iframe. You must know the IAU number of
+        your meteor shower, which you can look up <a
+          href="https://www.ta3.sk/IAUC22DB/MDC2007/Roje/roje_lista.php?corobic_roje=1&amp;sort_roje=0">here</a>.
+        <br /><br />
+        <code>&lt;iframe src=&quot;https://www.meteorshowers.org/view/iau-7&quot; width=&quot;500&quot; height=&quot;500&quot; frameBorder=&quot;0&quot;&gt;&lt;/iframe&gt;</code>
+        <br /><br />
+        Please remember to attribute this site!
+      </p>
+      <h2>How can I build something similar?</h2>
+      <p>
+        The visualization engine used for MeteorShowers.org has been released as <a
+          href="https://typpo.github.io/spacekit/">SpaceKit.js</a>. Give it a try!
+      </p>
+    </div>
+  </div>
+  <div id="instructions" class="iframe-hide-container mobile-hide-container">
+    单击并拖动转向 &middot; 右键单击平移 &middot; 滚动缩放
+  </div>
+  <div id="copyright" class="iframe-hide-container mobile-hide-container">
+    彗星数据来自 <a target="_blank" href="https://en.wikipedia.org/wiki/Peter_Jenniskens">Peter Jenniskens</a>, 可视化 by <a
+      target="_blank" href="">CG2008</a>
+  </div>
+
+
+  <div id="loading-container" style="display:none">
+    <h2>Loading...</h2>
+    <p id="loading-message"></p>
+  </div>
+  <div id="ianww" class="iframe-show-container" style="display:none">
+
+    <a id="ianww-link" href="index.html" target="_blank">SpaceLab.ac.cn</a>
+  </div>
+  <script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+  <script type="x-shader/x-vertex" id="orbit-vertex-shader">
+    // MIT License.
+    // Copyright Ian Webster 2012 (asterank.com)
+    // https://github.com/typpo/asterank/blob/master/LICENSE
+    #define pi 3.141592653589793238462643383279
+
+    attribute vec3 value_color;
+    varying vec3 vColor;
+
+    attribute float size;
+
+    uniform float earth_i;
+    uniform float earth_om;
+
+    uniform float jed;
+
+    attribute float a;
+    attribute float e;
+    attribute float i;
+    attribute float o;
+    attribute float ma;
+    attribute float n;
+    attribute float w;
+    attribute float epoch;
+
+    attribute float highlight_above_ecliptic;
+    attribute float highlight_below_ecliptic;
+
+    attribute float locked;
+    attribute float is_planet;
+    varying float vLocked;
+    varying float vPlanet;
+
+    vec3 getAstroPos() {
+      float i_rad = i * pi/180.0;
+      float o_rad = o * pi/180.0; // longitude of ascending node
+      float p_rad = w * pi/180.0; // LONGITUDE of perihelion
+      float ma_rad = ma * pi/180.0;
+
+      // Compute mean motion from period.
+      float period = sqrt(a * a * a) * 365.25;
+      float n_rad = 2.0 * pi / period;
+
+      float d = jed - epoch;
+      float M = ma_rad + n_rad * d;
+
+      // Estimate eccentric and true anom using iterative approximation (this
+      // is normally an intergral).
+      float E0 = M;
+      float E1 = M + e * sin(E0);
+      float lastdiff = abs(E1-E0);
+      E0 = E1;
+      for (int foo=0; foo < 25; foo++) {
+        E1 = M + e * sin(E0);
+        lastdiff = abs(E1-E0);
+        E0 = E1;
+        if (lastdiff < 0.0000001) {
+          break;
+        }
+      }
+
+      float E = E0;
+      float v = 2.0 * atan(sqrt((1.0+e)/(1.0-e)) * tan(E/2.0));
+
+      // Compute radius vector, in AU.
+      float r = a * (1.0 - e*e) / (1.0 + e * cos(v)) * 50.;  // 50 pixels per AU
+
+      // Compute heliocentric coords.
+      float X = r * (cos(o_rad) * cos(v + p_rad - o_rad) - sin(o_rad) * sin(v + p_rad - o_rad) * cos(i_rad));
+      float Y = r * (sin(o_rad) * cos(v + p_rad - o_rad) + cos(o_rad) * sin(v + p_rad - o_rad) * cos(i_rad));
+      float Z = r * (sin(v + p_rad - o_rad) * sin(i_rad));
+      return vec3(X, Y, Z);
+    }
+
+    void main() {
+      vColor = value_color;
+      vLocked = locked;
+      vPlanet = is_planet;
+
+      vec3 newpos = getAstroPos();
+      if (newpos[2] > 0. && highlight_above_ecliptic > 0.) {
+        vColor = vec3(255., 255., 255.) / vec3(255., 255., 255.);
+        gl_PointSize = size * 2.;
+      } else if (newpos[2] < 0. && highlight_below_ecliptic > 0.) {
+        vColor = vec3(195., 195., 195.) / vec3(255., 255., 255.);
+        gl_PointSize = size * 2.;
+      } else {
+        gl_PointSize = size;
+      }
+      vec4 mvPosition = modelViewMatrix * vec4(newpos, 1.0);
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  </script>
+  <script type="x-shader/x-fragment" id="orbit-fragment-shader">
+    // MIT License.
+    // Copyright Ian Webster 2012 (asterank.com)
+    // https://github.com/typpo/asterank/blob/master/LICENSE
+    varying vec3 vColor;
+    varying float vLocked;
+    varying float vPlanet;
+    uniform sampler2D planet_texture;
+    uniform sampler2D small_roid_texture;
+    uniform sampler2D small_roid_circled_texture;
+
+    void main() {
+      if (vLocked < .5) {
+        if (vPlanet < .5) {
+          gl_FragColor = vec4(vColor, 1.0) * texture2D(small_roid_texture,
+            vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y));
+        }
+        else {
+          gl_FragColor = vec4(vColor, 1.0) * texture2D(planet_texture,
+            vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y));
+        }
+      } else {
+        gl_FragColor = vec4(vColor, 1.0) * texture2D(small_roid_circled_texture,
+          vec2(gl_PointCoord.x, 1.0 - gl_PointCoord.y));
+      }
+    }
+  </script>
+  <script type="application/x-glsl" id="sky-vertex">
+    varying vec2 vUV;
+    varying float vDensity;
+    varying float vDiff;
+
+    void main() {
+      vUV = uv;
+      vec4 pos = vec4(position, 1.0);
+      gl_Position = projectionMatrix * modelViewMatrix * pos;
+    }
+  </script>
+  <script type="application/x-glsl" id="sky-density">
+    uniform sampler2D texture;
+    varying vec2 vUV;
+
+    void main() {
+      vec4 sample = texture2D(texture, vUV);
+      gl_FragColor = vec4(sample.xyz, sample.w);
+    }
+  </script>
+  <script>
+    window.addEventListener('error', function (e) {
+      var errlog = {
+        msg: e.message,
+        location: e.filename + ': ' + e.lineno
+      };
+      mixpanel.track('js error', errlog);
+      ga('send', 'exception', {
+        exDescription: errlog.location + ' ' + errlog.msg
+      });
+      console.info('Tracked js error', errlog);
+    });
+  </script>
+  <script>
+    window.METEOR_CLOUD_DATA = { "Perseids": { "name": "Perseid", "peak": "mid-August", "date": "8/12", "map": "perseids_north.jpg", "iau_number": 7, "source_type": "comet", "source_name": "Swift-Tuttle", "spaceref_url": "https://www.spacereference.org/comet/109p-swift-tuttle", "source_orbit": { "full_name": "Comet 109P/Swift-Tuttle", "epoch": 2450000.5, "a": 26.0920694978266, "e": 0.963225755046038, "q": 0.959516155068868, "i": 113.453816997171, "om": 139.3811920815948, "w": 152.9821676305871, "ma": 7.631696167124212, "p": 48681.19346262312, "Q": 51.22462284058444 } }, "Leonids": { "name": "Leonids", "peak": "mid-November", "date": "11/18", "map": "leonids_north.jpg", "iau_number": 13, "source_type": "comet", "source_name": "Tempel-Tuttle", "spaceref_url": "https://www.spacereference.org/comet/55p-tempel-tuttle", "source_orbit": { "full_name": "Comet 55P/Tempel-Tuttle", "epoch": 2451040.5, "a": 10.3383382297577, "e": 0.905552720972412, "q": 0.976427915467506, "i": 162.486575379434, "om": 235.270989149082, "w": 172.5002736828059, "ma": 4.97833968468816, "p": 12141.56115249823 } }, "Alpha Capricornids": { "name": "Alpha Capricornids", "peak": "late July", "date": "7/31", "iau_number": 1, "source_type": "comet", "source_name": "169P/NEAT", "spaceref_url": "https://www.spacereference.org/comet/169p-neat", "source_orbit": { "full_name": "Comet 169P/NEAT", "epoch": 2454306.5, "a": 2.604263020070025, "e": 0.7669213009105551, "q": 0.6069982368046702, "i": 11.30426956301453, "om": 176.2198405695179, "w": 217.9762263570652, "ma": 158.4168571978383, "p": 1535.061194216666 } }, "Lyrids": { "name": "Lyrids", "peak": "April", "date": "4/22", "map": "lyrids_north.jpg", "iau_number": 6, "source_type": "comet", "source_name": "C/1861 G1 Thatcher", "spaceref_url": "https://www.spacereference.org/comet/c-1861-g1-thatcher", "source_orbit": { "full_name": "Comet C/1861 G1 Thatcher", "epoch": 2400920.5, "a": 55.6818869, "e": 0.983465, "q": 0.9207, "i": 79.7733, "om": 31.8674, "w": 213.4496, "ma": -0.0234598, "p": 151578.75 }, "pictures": [{ "url": "http://astrobob.areavoices.com/files/2012/04/Lyrids-2011-12_30April-232-1024x698.jpg", "caption": "" }] }, "Orionids": { "name": "Orionids", "peak": "late October", "date": "10/21", "map": "orionids_north.jpg", "iau_number": 8, "source_type": "comet", "source_name": "Halley", "spaceref_url": "https://www.spacereference.org/comet/1p-halley", "source_orbit": { "full_name": "Comet 1P/Halley", "epoch": 2449400.5, "a": 17.8341442925537, "e": 0.967142908462304, "q": 0.585978111516909, "i": 162.262690579161, "om": 58.42008097656843, "w": 111.3324851045177, "ma": 38.3842644764388, "p": 27509.1290731861 } }, "Eta Aquariids": { "name": "Eta Aquariids", "peak": "early May", "date": "5/5", "map": "eta_aquarids_north.jpg", "iau_number": 31, "source_type": "comet", "source_name": "Halley", "spaceref_url": "https://www.spacereference.org/comet/1p-halley", "source_orbit": { "full_name": "Comet 1P/Halley", "epoch": 2449400.5, "a": 17.8341442925537, "e": 0.967142908462304, "q": 0.585978111516909, "i": 162.262690579161, "om": 58.42008097656843, "w": 111.3324851045177, "ma": 38.3842644764388, "p": 27509.1290731861 } }, "Quadrantids": { "name": "Quadrantids", "peak": "early January", "date": "1/3", "iau_number": 10, "map": "quadrantids_north.jpg", "source_type": "asteroid", "source_name": "2003 EH1", "spaceref_url": "https://www.spacereference.org/asteroid/196256-2003-eh1", "source_orbit": { "full_name": "Asteroid 2003 EH1", "epoch": 2457000.5, "a": 3.122076326984469, "e": 0.6190846552236009, "q": 1.189246780511523, "i": 70.87628080581905, "om": 282.9631889304927, "w": 171.352056383936, "ma": 48.43591036347674, "p": 2014.947343719152, "Q": 5.054905873457415 } }, "Southern Delta Aquariids": { "name": "Southern Delta Aquariids", "peak": "late July", "date": "7/28", "map": "delta_aquarids_south.jpg", "iau_number": 5, "source_type": "comet", "source_name": "P/2008 Y12", "spaceref_url": "https://www.spacereference.org/comet/p-2008-y12-soho", "source_orbit": { "full_name": "Comet P/2008 Y12 (SOHO)", "epoch": 2455476.5, "a": 3.078224129104039, "e": 0.9787495374822994, "q": 0.06541368647660686, "i": 23.34562318136519, "om": 312.5525907382889, "w": 146.614161143522, "ma": 119.2654854953976, "p": 1972.644309786168 } }, "Southern Taurids": { "name": "Southern Taurids", "peak": "October", "date": "10/10", "iau_number": 2, "source_type": "comet", "source_name": "Encke", "spaceref_url": "https://www.spacereference.org/comet/2p-encke", "source_orbit": { "full_name": "Comet 2P/Encke", "epoch": 2457260.5, "a": 2.215132168119717, "e": 0.8483353543281217, "q": 0.3359572353942565, "i": 11.78145516019895, "om": 334.5681964371267, "w": 186.5460141528601, "ma": 191.9830650931392, "p": 1204.197975688157 } }, "Northern Taurids": { "name": "Northern Taurids", "peak": "November", "date": "11/12", "iau_number": 17, "source_type": "comet", "source_name": "Encke", "spaceref_url": "https://www.spacereference.org/comet/2p-encke", "source_orbit": { "full_name": "Comet 2P/Encke", "epoch": 2457260.5, "a": 2.215132168119717, "e": 0.8483353543281217, "q": 0.3359572353942565, "i": 11.78145516019895, "om": 334.5681964371267, "w": 186.5460141528601, "ma": 191.9830650931392, "p": 1204.197975688157 } }, "Geminids": { "name": "Geminids", "peak": "mid-December", "date": "12/14", "map": "geminids_north.jpg", "iau_number": 4, "source_type": "asteroid", "source_name": "Phaethon", "spaceref_url": "https://www.spacereference.org/asteroid/3200-phaethon-1983-tb", "source_orbit": { "full_name": "Asteroid 3200 Phaethon", "epoch": 2457000.5, "a": 1.271171408008421, "e": 0.8898360011148798, "q": 0.1400373255746363, "i": 22.23995071185812, "om": 265.2652193975989, "w": 322.143726872288, "ma": 293.7610538532383, "p": 523.4854325174181 } }, "Ursids": { "name": "Ursids", "peak": "mid-December", "date": "12/21", "map": "ursids_north.jpg", "iau_number": 15, "source_type": "comet", "source_name": "Tuttle", "spaceref_url": "https://www.spacereference.org/comet/8p-tuttle", "source_orbit": { "full_name": "Comet 8P/Tuttle", "epoch": 2454374.5, "a": 5.699862070878575, "e": 0.8197997470243816, "q": 1.027116587098451, "i": 54.98318484460209, "om": 270.3416520050764, "w": 207.5092459727414, "ma": 351.4516245290291, "p": 4970.441269280825 } }, "Kappa Cygnids": { "hideInMenu": true, "highlight_ecliptic": true, "show_particle_orbits": true, "name": "Kappa Cygnids", "peak": "mid August", "date": "8/21", "orbit_data_path": "/js/data/kcg.json" }, "Omicron Eridanids": { "hideInMenu": true, "highlight_ecliptic": true, "show_particle_orbits": true, "name": "Omicron Eridanids", "peak": "mid November", "date": "11/22", "orbit_data_path": "/js/data/oer.json" } };
+  </script>
+  <script src="dist/bundle-20200119-1579462493.js"></script>
+  <script type="text/javascript">(function (e, a) {
+      if (!a.__SV) {
+        var b = window; try { var c, l, i, j = b.location, g = j.hash; c = function (a, b) { return (l = a.match(RegExp(b + "=([^&]*)"))) ? l[1] : null }; g && c(g, "state") && (i = JSON.parse(decodeURIComponent(c(g, "state"))), "mpeditor" === i.action && (b.sessionStorage.setItem("_mpcehash", g), history.replaceState(i.desiredHash || "", e.title, j.pathname + j.search))) } catch (m) { } var k, h; window.mixpanel = a; a._i = []; a.init = function (b, c, f) {
+          function e(b, a) {
+            var c = a.split("."); 2 == c.length && (b = b[c[0]], a = c[1]); b[a] = function () {
+              b.push([a].concat(Array.prototype.slice.call(arguments,
+                0)))
+            }
+          } var d = a; "undefined" !== typeof f ? d = a[f] = [] : f = "mixpanel"; d.people = d.people || []; d.toString = function (b) { var a = "mixpanel"; "mixpanel" !== f && (a += "." + f); b || (a += " (stub)"); return a }; d.people.toString = function () { return d.toString(1) + ".people (stub)" }; k = "disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+          for (h = 0; h < k.length; h++)e(d, k[h]); a._i.push([b, c, f])
+        }; a.__SV = 1.2; b = e.createElement("script"); b.type = "text/javascript"; b.async = !0; b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === e.location.protocol && "//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn4.mxpnl.com/libs/mixpanel-2-latest.min.js"; c = e.getElementsByTagName("script")[0]; c.parentNode.insertBefore(b, c)
+      }
+    })(document, window.mixpanel || []);
+    mixpanel.init("c5d915a004df96a33c912640ed0e9faf");</script>
+  <script>
+    mixpanel.track('meteors', { view: '' });
+    mixpanel.track(document.location.pathname + document.location.hash);
+  </script>
+  <script>
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '../www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-96103019-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <noscript>
+    <p>You need Javascript enabled in order to use this web application.</p>
+  </noscript>
+</body>
+
+<!-- Mirrored from www.meteorshowers.org/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 03 Jun 2021 13:12:35 GMT -->
+
+</html>
